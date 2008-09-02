@@ -10,5 +10,5 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     (r'^admin/(.*)', admin.site.root),
-    (r'^', include('uploads.urls')),
+    (r'^uploads/', include('uploads.urls')),
 )
