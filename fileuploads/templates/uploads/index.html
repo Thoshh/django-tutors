@@ -1,0 +1,15 @@
+{% extends "uploads/base.html" %}
+
+{% block title %}File uploads{% endblock %}
+
+{% block content %}
+<h1>File uploads</h1>
+<h2>Static file uploads</h2>
+<p>Files uploaded using the form below go to statically defined path <code>uploads/files</code> (relative to <code>settings.MEDIA_ROOT</code>).</p>
+<form method="post" action="." enctype="multipart/form-data">
+<table>
+{{ form.as_table }}
+</table>
+<p><input type="submit" value="Upload" /></p>
+</form>
+{% endblock %}
