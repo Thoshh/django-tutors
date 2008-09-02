@@ -1,21 +1,38 @@
 # -*- coding: utf-8 -*-
 
+__revision__ = '$Id$'
+
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
 
-from uploads.forms import FileUploadForm
+from uploads.forms import StaticUploadForm, DynamicUploadForm
 
-def index(request):
+def static(request):
     if request.POST:
-        form = FileUploadForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
+        static_form = StaticUploadForm(request.POST, request.FILES)
+        if static_form.is_valid():
+            static_form.save()
             return HttpResponseRedirect(request.path)
     else:
-        form = FileUploadForm()
+        static_form = StaticUploadForm()
     ctx = {
-        'form': form,
+        'form': static_form,
     }
-    return render_to_response('uploads/index.html', ctx,
+    return render_to_response('uploads/static.html', ctx,
+        context_instance=RequestContext(request))
+
+
+def dynamic(request):
+    if request.POST:
+        dynamic_form = DynamicUploadForm(request.POST, request.FILES)
+        if dynamic_form.is_valid():
+            dynamic_form.save()
+            return HttpResponseRedirect(request.path)
+    else:
+        dynamic_form = DynamicUploadForm()
+    ctx = {
+        'form': dynamic_form,
+    }
+    return render_to_response('uploads/dynamic.html', ctx,
         context_instance=RequestContext(request))
