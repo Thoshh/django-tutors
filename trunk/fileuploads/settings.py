@@ -1,5 +1,7 @@
 # Django settings for fileuploads project.
 
+__revision__ = '$Id$'
+
 import os
 
 DEBUG = True
@@ -81,5 +83,6 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
+    'django.contrib.admin',
     'uploads',
 )

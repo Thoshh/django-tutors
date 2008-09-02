@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 
+__revision__ = '$Id$'
+
 from django.conf.urls.defaults import *
 
 urlpatterns = patterns('uploads.views',
-    (r'^$', 'index'),
+    (r'^static/$', 'static'),
+    (r'^dynamic/$', 'dynamic'),
 )
