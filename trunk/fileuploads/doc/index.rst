@@ -17,16 +17,18 @@ W kolejnych rozdziałach zostaną omówione zarówno tradycyjne sposoby uploadow
 Wymagania i zależności
 ======================
 
+Najważniejszym założeniem jest to, że czytelnik ma jakiekolwiek pojęcie o tym, jak działa internet i (co chyba ważniejsze) jak działa Django. Znajomość Pythona na poziomie przynajmniej podstawowym jest niezbędna do zrozumienia dołączonego kodu.
+
 Przedstawiony dalej samouczek zakłada, że czytelnik pobrał kod źródłowy wraz z samouczkiem. W dalszym ciągu tego dokumentu katalog, w którym znajduje się kod i dokumenty będzie określany jako ``<root>``.
 
 Dołączony kod wymaga do uruchomienia `Pythona <http://python.org/download/>`_ w wersji co najmniej 2.4 i `ramówki Django <http://www.djangoproject.com/download/>`_ w wersji 1.0. Jeżeli używana jest wersja Pythona 2.4, to konieczne będzie doinstalowanie biblioteki `PySQLite <http://oss.itsystementwicklung.de/trac/pysqlite/>`_ (Python 2.5 jest dystrybuowany z tą biblioteką).
 
-Dołączony kod został przetestowany pod kątem prawidłowego działania na systemach Linux (Ubuntu 8.04) i Mac OS X (10.5.4 Leopard) z Pythonem instalowanym z portów. Autor nie gwarantuje działania na innych systemach. Co tam, autor w ogóle niczego nie gwarantuje.
+Dołączony kod został przetestowany pod kątem prawidłowego działania na systemach Linux (Ubuntu 8.04) i Mac OS X (10.5.4 Leopard) z Pythonem instalowanym z portów. Autor nie gwarantuje działania na innych systemach. Co tam, autor w ogóle niczego nie gwarantuje. Uruchamiasz, używasz i czytasz wyłącznie na własną odpowiedzialność
 
 Zawartość:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    
    tutorial/static.rst
    tutorial/dynamic.rst

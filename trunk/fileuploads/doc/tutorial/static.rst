@@ -14,4 +14,9 @@ W wielu sytuacjach wystarcza to całkowicie do tego, aby przyjąć plik od użyt
 Przykładowy kod
 ===============
 
-Przykładowy kod aplikacji znajduje się w katalogu ``<root>/uploads``.
+Przykładowy kod aplikacji znajduje się w katalogu ``<root>/uploads``. Aplikacja ma standardową strukturę aplikacji Django:
+
+* ``models.py``, zawierający modele (nas interesuje model ``StaticFileUpload``);
+* ``views.py``, zawierający widoki (interesujący nas widok to ``static()``);
+* ``urls.py`` (`URLConf <http://docs.djangoproject.com/en/dev/topics/http/urls/>`_);
+* ``forms.py``, zawierający klasy formularzy do przyjmowania uploadu plików.
