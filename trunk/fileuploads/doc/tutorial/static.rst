@@ -2,7 +2,7 @@
 Statyczny upload plików
 ***********************
 
-Jest to sposób, jaki w Django był dostępny *od zawsze* (a właściwie odkąd Django obsługuje upload plików). W związku z tym, że pojawiły się niedawno (w czasie przygotowań do wydania 1.0) nowe sposoby obsługi uploadowanych plików, ten sposób nieco stracił na znaczeniu, ale nadal w wielu przypadkach jest zupełnie wystarczający. Przypomnę, jakie są jego założenia.
+Jest to sposób, jaki w Django był dostępny *od zawsze* (a właściwie odkąd Django obsługuje upload plików). W związku z tym, że pojawiły się niedawno (w czasie przygotowań do wydania wersji 1.0) nowe sposoby obsługi uploadowanych plików, ten sposób nieco stracił na znaczeniu, ale nadal w wielu przypadkach jest zupełnie wystarczający. Przypomnę, jakie są jego założenia.
 
 * pliki umieszczane są w lokalizacji relatywnej do ``settings.MEDIA_ROOT``;
 * ścieżkę podaje się również w postaci relatywnej do ``settings.MEDIA_ROOT``;
@@ -71,4 +71,4 @@ Jak wcześniej wspomniałem, przed wywołaniem metody ``save()`` instancja nie m
 
 Sztuczka ta ma jednak kilka poważnych mankamentów, które mogą ją zdyskwalifikować w sytuacji *produkcyjnej*. Przede wszystkim, obiekt jest zapisywany dwukrotnie, więc muszą być wykonane dwie operacje na bazie danych: ``INSERT`` i ``UPDATE``. Nie ma to nic wspólnego z optymalizacją dostępu do bazy danych.
 
-Inny problem jest nieco głębszej natury. Otóż, atrybut ``uploaded_file`` nie może być wymagalny, bo pierwszy zapis obiektu będzie się odbywał przed jego ustawieniem. Nietrudno wyobrazić sobie sytuację, kiedy takie wymaganie nie może zostać zaakceptowane z punktu widzenia logiki aplikacji.
+Inny problem jest nieco głębszej natury. Otóż, atrybut ``uploaded_file`` nie może być wymagalny, bo pierwszy zapis obiektu będzie się odbywał przed jego ustawieniem. Nietrudno wyobrazić sobie sytuację, kiedy takie wymaganie nie może zostać zaakceptowane z punktu widzenia logiki aplikacji. W takiej sytuacji trzeba spróbować z dynamicznym ustawianiem ścieżki, ale o tym traktuje następny artykuł.
