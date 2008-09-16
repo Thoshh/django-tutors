@@ -41,7 +41,7 @@ Wartość tego argumentu może być do pewnego stopnia dynamiczna. Django umożl
 
 spowoduje, że dostarczone pliki zostaną umieszczone w podkatalogach podzielonych na lata, miesiące i dni, kiedy plik został odebrany i tak plik odebrany 15 września 2008 roku znajdzie się w podkatalogu ``settings.MEDIA_ROOT/uploads/files/2008/09/15``. Takie *rozkładanie* plików do pewnego stopnia umożliwia uporządkowanie zasobów.
 
-Następnym krokiem jest napisanie kodu przyjmującego uploadowany plik i umieszczającego go w odpowiednim miejscu. Większość pracy w przypadku statycznego określania ścieżki pliku wykona za nas Django. Kod ten najczęściej umieszcza się w klasie reprezentującej formularz HTML. Jest to zgodne z ideą oddzielania odpowiedzialności poszczególnych komponentów aplikacji za poszczególne działania. Klasy obsługi formularzy odpowiadają za przyjęcie od użytkownika danych i *przekonwertowanie* ich w dane, którymi posługuje się aplikacja, a więc w instancje odpowiednich modeli. W naszym przypadku jest to klasa ``StaticUploadForm`` (znajdująca się w module ``forms`` przykładowej aplikacji).
+Następnym krokiem jest napisanie kodu przyjmującego uploadowany plik i umieszczającego go w odpowiednim miejscu. Większość pracy w przypadku statycznego określania ścieżki pliku wykona za nas Django. Kod ten najczęściej umieszcza się w klasie reprezentującej formularz HTML. Jest to zgodne z ideą oddzielania odpowiedzialności poszczególnych komponentów aplikacji za poszczególne działania. Klasy obsługi formularzy odpowiadają za przyjęcie od użytkownika danych i *przekonwertowanie* ich w dane, którymi posługuje się aplikacja, a więc w instancje odpowiednich modeli. W naszym przypadku jest to klasa ``StaticUploadForm``, znajdująca się w module ``forms`` przykładowej aplikacji.
 
 Za utworzenie (i zwrócenie) instancji odpowiedniego modelu odpowiada metoda ``save()`` klasy reprezentującej formularz. W niej tworzona jest instancja klasy ``StaticFileUpload`` i ustawiane są jej atrybuty. O ile (posługując się kodem przykładowym) ustawienie atrybutu ``caption`` nie nastręcza szczególnych trudności, bo jest to zwykły atrybut typu ``unicode``, o tyle atrybut ``upload`` wymaga nieco zachodu.
 
@@ -51,7 +51,12 @@ Dane odebrane od użytkownika znajdują się w atrybucie ``cleaned_data`` instan
 
 Tak też jest to zrobione w kodzie przykładowym.
 
-I to właściwie wszystko. Teraz pozostaje spojrzeć w system plików i stwierdzić, czy rzeczywiście w katalogu, który jest podany w zmiennej ``settings.MEDIA_ROOT`` została utworzona odpowiednia struktura podkatalogów i plik o odpowiedniej nazwie (takiej, jak miał plik w lokalnym systemie plików użytkowika) został utworzony w spodziewanym miejscu.
+I to już właściwie wszystko. Teraz pozostaje spojrzeć w system plików i stwierdzić, czy rzeczywiście w katalogu, który jest podany w zmiennej ``settings.MEDIA_ROOT`` została utworzona odpowiednia struktura podkatalogów i plik o odpowiedniej nazwie (takiej, jak miał plik w lokalnym systemie plików użytkowika) został utworzony w spodziewanym miejscu.
+
+Co może się nie udać
+====================
+
+Przy statycznym określaniu ścieżki nie ma wielu rzeczy, które mogą nie zadziałać.
 
 Możliwe modyfikacje
 ===================
@@ -71,4 +76,4 @@ Jak wcześniej wspomniałem, przed wywołaniem metody ``save()`` instancja nie m
 
 Sztuczka ta ma jednak kilka poważnych mankamentów, które mogą ją zdyskwalifikować w sytuacji *produkcyjnej*. Przede wszystkim, obiekt jest zapisywany dwukrotnie, więc muszą być wykonane dwie operacje na bazie danych: ``INSERT`` i ``UPDATE``. Nie ma to nic wspólnego z optymalizacją dostępu do bazy danych.
 
-Inny problem jest nieco głębszej natury. Otóż, atrybut ``uploaded_file`` nie może być wymagalny, bo pierwszy zapis obiektu będzie się odbywał przed jego ustawieniem. Nietrudno wyobrazić sobie sytuację, kiedy takie wymaganie nie może zostać zaakceptowane z punktu widzenia logiki aplikacji. W takiej sytuacji trzeba spróbować z dynamicznym ustawianiem ścieżki, ale o tym traktuje następny artykuł.
+Inny problem jest nieco głębszej natury. Otóż, atrybut ``uploaded_file`` nie może być wymagalny, bo pierwszy zapis obiektu będzie się odbywał przed jego ustawieniem. Nietrudno wyobrazić sobie sytuację, kiedy takie wymaganie nie może zostać zaakceptowane z punktu widzenia logiki aplikacji. W takiej sytuacji trzeba spróbować z dynamicznym ustawianiem ścieżki, ale o tym traktuje :ref:`następny artykuł <ref-dynamic>`.
