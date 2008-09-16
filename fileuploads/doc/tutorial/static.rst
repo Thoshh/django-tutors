@@ -56,7 +56,7 @@ I to już właściwie wszystko. Teraz pozostaje spojrzeć w system plików i stw
 Co może się nie udać
 ====================
 
-Przy statycznym określaniu ścieżki nie ma wielu rzeczy, które mogą nie zadziałać.
+Przy statycznym określaniu ścieżki nie ma wielu rzeczy, które mogą nie zadziałać. Najczęściej spotykane błędy to omyłkowe podanie ścieżki bezwzględnej lub podanie lokalizacji, w której aplikacja nie ma uprawnień do zapisywania plików. Inne napotykane problemy wynikają z czynników zewnętrznych wobec systemu uploadu plików lub związanych z nim jedynie wirtualnie.
 
 Możliwe modyfikacje
 ===================
