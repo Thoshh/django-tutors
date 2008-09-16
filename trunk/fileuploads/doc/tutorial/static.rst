@@ -70,7 +70,7 @@ Jak wcześniej wspomniałem, przed wywołaniem metody ``save()`` instancja nie m
 
     obj = StaticFileUpload(caption=self.cleaned_data['caption'])
     obj.save()
-    new_filename = make_field_name(self.cleaned_data['upload_field'].name, self.id)
+    new_filename = make_field_name(self.cleaned_data['upload_field'].name, obj.id)
     obj.uploaded_file.save(new_filename, self.cleaned_data['upload_field'])
     obj.save()
 
