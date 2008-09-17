@@ -7,6 +7,7 @@ from django.template import RequestContext
 from django.http import HttpResponseRedirect
 
 from uploads.forms import StaticUploadForm, DynamicUploadForm
+from uploads.files import LoggingUploadHandler
 
 def static(request):
     if request.POST:
@@ -36,3 +37,8 @@ def dynamic(request):
     }
     return render_to_response('uploads/dynamic.html', ctx,
         context_instance=RequestContext(request))
+
+
+def handler(request):
+    request.upload_handlers.insert(0, LoggingUploadHandler())
+    return static(request)
