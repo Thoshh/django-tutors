@@ -23,7 +23,7 @@ Przedstawiony dalej samouczek zakłada, że czytelnik pobrał kod źródłowy wr
 
 Dołączony kod wymaga do uruchomienia `Pythona <http://python.org/download/>`_ w wersji co najmniej 2.4 i `ramówki Django <http://www.djangoproject.com/download/>`_ w wersji 1.0. Jeżeli używana jest wersja Pythona 2.4, to konieczne będzie doinstalowanie biblioteki `PySQLite <http://oss.itsystementwicklung.de/trac/pysqlite/>`_ (Python 2.5 jest dystrybuowany z tą biblioteką).
 
-Dołączony kod został przetestowany pod kątem prawidłowego działania na systemach Linux (Ubuntu 8.04) i Mac OS X (10.5.4 Leopard) z Pythonem instalowanym z portów. Autor nie gwarantuje działania na innych systemach. Co tam, autor w ogóle niczego nie gwarantuje. Uruchamiasz, używasz i czytasz wyłącznie na własną odpowiedzialność
+Dołączony kod został przetestowany pod kątem prawidłowego działania na systemach Linux (Ubuntu 8.04) i Mac OS X (10.5 Leopard) z Pythonem instalowanym z portów. Autor nie gwarantuje działania na innych systemach. Co tam, autor w ogóle niczego nie gwarantuje. Uruchamiasz, używasz i czytasz wyłącznie na własną odpowiedzialność
 
 Zawartość:
 
