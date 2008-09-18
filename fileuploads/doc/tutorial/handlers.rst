@@ -1,4 +1,4 @@
-.. ref-uploadhandlers
+.. _ref-uploadhandlers:
 
 **************************************************
 Zarządzanie przyjmowaniem plików (Upload Handlers)
