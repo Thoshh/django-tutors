@@ -13,3 +13,36 @@ Przez długi czas jedynym sposobem zarządzania danymi plikowymi odbieranymi prz
 
 Ten samouczek traktuje właśnie o sposobach przyjmowania danych plikowych od serwera HTTP przy użyciu własnego mechanizmu.
 
+UploadHandler
+=============
+
+Jest to klasa (dziedzicząca z :class:`django.core.files.uploadhandler.FileUploadHandler`), której zadaniem jest *zrobić coś z uploadowanymi danymi*. Domyślnie Django w ustawieniu :const:`settings.FILE_UPLOAD_HANDLERS` ma krotkę złożoną z dwóch klas: :class:`django.core.files.uploadhandler.MemoryFileUploadHandler` i :class:`django.core.files.uploadhandler.TemporaryFileUploadHandler`. Uploadowane dane przechodzą przez nie właśnie w tej kolejności i w zależności od funkcji mogą one zapisać gdzieś plik lub zrobić z coś innego z danymi (te dostarczane z Django odbierają dane i zapisują je we wskazanej lokalizacji jako plik).
+
+Ponieważ czasem może być potrzeba obsłużenia uploadu w pojedynczym przypadku w inny sposób, obiekt ``request`` dostępny w każdym widoku w aplikacji Django (i w wielu innych miejscach również) posiada jako jeden ze swoich atrybutów listę handlerów, które mają obowiązywać podczas odbierania plików w wybranym fragmencie kodu. Dla bezpieczeństwa zwykle umieszcza się odpowiednią linię kodu na początku funkcji, ale ważne jest to, żeby lista handlerów została ustawiona zanim nasz kod spróbuje uzyskać dostęp do ``request.POST`` lub ``request.FILES`` (w tym momencie już jest *po ptokach*). Ponieważ jest to lista i klasy umieszczane w niej przetwarzają dane po kolei, zazwyczaj obiekty własnych klas handlerów umieszcza się na jej początku::
+
+    request.upload_handlers.insert(0, LoggingUploadHandler())
+
+Kod aplikacji
+=============
+
+Ponieważ głównym obiektem naszego zainteresowania nie są modele i ich zachowania, do przechowywania odebranych danych wykorzystany zostanie znana już funkcja :func:`static` z modułu :mod:`views`, ubierzemy ją tylko w trochę wrapującego kodu i umieścimy ją pod oddzielnym URL-em. Kod, który jest obiektem naszego zainteresowania to klasa :class:`LoggingUploadHandler` z modułu :mod:`files`. Implementuje ona wszystkie wymagane metody interfejsu klasy :class:`FileUploadHandler` (są to :meth:`FileUploadHandler.receive_data_chunk`, która odpowiada za odebranie danych i :meth:`FileUploadHandler.file_complete`, która kończy przetwarzanie odebranych danych) i dodatkowo kilka innych, które przydadzą się nam w dziele logowania (na :obj:`sys.stdout`) postępu odbierania pliku od serwera HTTP.
+
+Wymagane metody
++++++++++++++++
+
+.. method:: FileUploadHandler.receive_data_chunk(raw_data, start)
+
+   Metoda odpowiada za odebranie kolejnego kawałka danych od serwera HTTP. Argument ``raw_data`` zawiera odebrane bajty, a argument ``start`` pozycję w strumieniu wejściowym. Wywoływana jest przy każdym odebranym fragmencie danych. Domyślnie ten *kawałek* będzie miał 64KB, ale we własnych klasach można to zmienić ustawiając inaczej wartość atrybutu :attr:`chunk_size`. Zwrócenie ``raw_data`` z tej metody spowoduje przekazanie przetwarzania fragmentu danych do kolejnego handlera, jeżeli natomiast w tej metodzie wywołany zostanie wyjątek :exc:`StopUpload` lub :exc:`SkipFile`, wtedy odbieranie danych zostanie przerwane (w drugim przypadku cała odebrana zawartość zostanie odrzucona).
+ 
+.. method:: FileUploadHandler.file_complete(file_size)
+
+   Metoda ta jest wywoływana po odebraniu wszystkich danych od serwera HTTP. Z tej metody trzeba zwrócić albo obiekt klasy :class:`UploadedFile` (i wtedy przetwarzanie się zakończy), albo ``None`` i wtedy rezultat uploadu zostanie zwrócony z kolejnych handlerów.
+
+Metody opcjonalne
++++++++++++++++++
+
+Nie będę opisywał tu wszystkich metod, a jedynie te, które zaimplementowane są w przykładowej klasie :class:`LoggingUploadHandler`, po dokładny opis całego interfejsu klasy odsyłam do `odpowiedniego rozdziału w dokumentacji Django <http://docs.djangoproject.com/en/dev/topics/http/file-uploads/#optional-methods>`_.
+
+.. method:: FileUploadHandler.new_file(field_name, file_name, content_type, content_length, charset)
+
+   Metoda ta jest wywoływana przed rozpoczęciem odbierania danych nowego pliku. W przykładowej.
