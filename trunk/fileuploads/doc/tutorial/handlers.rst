@@ -45,4 +45,15 @@ Nie będę opisywał tu wszystkich metod, a jedynie te, które zaimplementowane 
 
 .. method:: FileUploadHandler.new_file(field_name, file_name, content_type, content_length, charset)
 
-   Metoda ta jest wywoływana przed rozpoczęciem odbierania danych nowego pliku. W przykładowej.
+   Metoda ta jest wywoływana przed rozpoczęciem odbierania danych nowego pliku. W kodzie przykładowym jest używana do zresetowania licznika pobranych bajtów i ustawienia rozmiaru pobieraniego pliku.
+
+.. method:: FileUploadHandler.handle_raw_input(input_data, META, content_length, boundary, encoding=None)
+
+   Metoda ta umożliwia całkowite przechwycenie wszystkich danych i dowolną modyfikację procesu obsługi odebranego pliku. W kodzie przykładowym używana jest do ustawienia rozmiaru pobieranego pliku (inne miejsca nie są *godne zaufania*).
+
+Spodziewany efekt i co można z tym zrobić?
+++++++++++++++++++++++++++++++++++++++++++
+
+Działanie aplikacji można zaobserwować w oknie terminala z uruchomionym serwerem developerskim Django - w miarę odbierania danych od serwera, aplikacja wypisuje postęp pobierania na standardowym wejściu.
+
+A do czego może się nam to przydać? A chociażby do tego, żeby zrobić wskaźnik postępu uploadowania pliku (obiekt pożądania wielu developerów aplikacji webowych...).
