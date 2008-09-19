@@ -68,7 +68,7 @@ W powyższym kodzie nie da się wprowadzić wielu zasadniczych modyfikacji. To, 
 Lepsza identyfikacja obiektów w systemie plików
 -----------------------------------------------
 
-Jak wcześniej wspomniałem, przed wywołaniem metody ``save()`` instancja nie ma trwałego charakteru. Aby uzyskać dostęp do atrybutów, które ją identyfikują jednoznacznie, trzeba albo najpierw ją zapisać, albo dostarczyć takich atrybutów samemu (klucz surogatowy jest znany dopiero **po** zakończeniu wykonywania metody ``save()``). Tą drugą sytuacją nie będziemy się zajmować, bo jest oczywista. A jak uzyskać dostęp do klucza surogatowego? Rozwiązanie jest proste, należy instancję zapisać dwukrotnie, najpierw bez ustawionego atrybutu reprezentującego plik, a następnie ponownie po ustawieniu tego atrybutu. Odpowiedni fragment metody ``save()`` klasy formularza mógłby mieć następującą postać::
+Jak wcześniej wspomniałem, przed wywołaniem metody ``save()`` instancja modelu nie ma trwałego charakteru. Aby uzyskać dostęp do atrybutów, które ją identyfikują jednoznacznie, trzeba albo najpierw ją zapisać, albo dostarczyć takich atrybutów samemu (klucz surogatowy jest znany dopiero **po** zakończeniu wykonywania metody ``save()``). Tą drugą sytuacją nie będziemy się zajmować, bo jest oczywista. A jak uzyskać dostęp do klucza surogatowego? Rozwiązanie jest proste, należy instancję zapisać dwukrotnie, najpierw bez ustawionego atrybutu reprezentującego plik, a następnie ponownie po ustawieniu tego atrybutu. Odpowiedni fragment metody ``save()`` klasy formularza mógłby mieć następującą postać::
 
     obj = StaticFileUpload(caption=self.cleaned_data['caption'])
     obj.save()

@@ -7,7 +7,7 @@ Zarządzanie przyjmowaniem plików (Upload Handlers)
 Przez długi czas jedynym sposobem zarządzania danymi plikowymi odbieranymi przez Django od serwera HTTP był sposób, który trudno nazwać wydajnym: zawartość całego pliku była wczytywana do pamieci procesu z przekazanego żądania HTTP i następnie kopiowana we wskazane miejsce. Na szczęście dzięki tytanicznej pracy developerów Django nie jest to już jedyny sposób. W czasie *drogi do 1.0* przebudowano całe zaplecze obsługi uploadu plików, zmieniając przy tym sposób, w jaki Django przyjmuje dane od serwera HTTP. Obecna sytuacja przedstawia się następująco:
 
 * jeżeli plik jest mniejszy, niż pewien ustalony rozmiar (domyślnie jest to 2.5MB), dane są nadal ładowane do pamięci procesu i obsługiwane tak, jak to miało miejsce dotychczas;
-* jeżeli rozmiar pliku jest większy, niż ustalony rozmiar o którym wspomniałem wcześniej, dane są przechowywane w tymczasowej lokalizacji (pliku) na dysku, a następnie w sposób wydajny przemieszczane do ostatecznej lokalizacji;
+* jeżeli rozmiar pliku jest większy, niż ustalony rozmiar o którym wspomniałem wcześniej, dane są przechowywane w tymczasowej lokalizacji (pliku) na dysku, a następnie w sposób wydajny (w małych kawałkach) przemieszczane do ostatecznej lokalizacji;
 * dane mogą być zapisywane i odczytywane także we fragmentach, jeżeli serwer HTTP potrafi przekazać dane w ten sposób (a większość potrafi);
 * można zdefiniować własny sposób obsługi uploadowanych danych, np. po to, by informację o postępie odbierania pliku pokazać *na froncie* przy użyciu jakiegoś asynchronicznego mechanizmu.
 
@@ -28,7 +28,7 @@ Kod aplikacji
 Ponieważ głównym obiektem naszego zainteresowania nie są modele i ich zachowania, do przechowywania odebranych danych wykorzystany zostanie znana już funkcja :func:`static` z modułu :mod:`views`, ubierzemy ją tylko w trochę wrapującego kodu i umieścimy ją pod oddzielnym URL-em. Kod, który jest obiektem naszego zainteresowania to klasa :class:`LoggingUploadHandler` z modułu :mod:`files`. Implementuje ona wszystkie wymagane metody interfejsu klasy :class:`FileUploadHandler` (są to :meth:`FileUploadHandler.receive_data_chunk`, która odpowiada za odebranie danych i :meth:`FileUploadHandler.file_complete`, która kończy przetwarzanie odebranych danych) i dodatkowo kilka innych, które przydadzą się nam w dziele logowania (na :obj:`sys.stdout`) postępu odbierania pliku od serwera HTTP.
 
 Wymagane metody
-+++++++++++++++
+---------------
 
 .. method:: FileUploadHandler.receive_data_chunk(raw_data, start)
 
@@ -39,7 +39,7 @@ Wymagane metody
    Metoda ta jest wywoływana po odebraniu wszystkich danych od serwera HTTP. Z tej metody trzeba zwrócić albo obiekt klasy :class:`UploadedFile` (i wtedy przetwarzanie się zakończy), albo ``None`` i wtedy rezultat uploadu zostanie zwrócony z kolejnych handlerów.
 
 Metody opcjonalne
-+++++++++++++++++
+-----------------
 
 Nie będę opisywał tu wszystkich metod, a jedynie te, które zaimplementowane są w przykładowej klasie :class:`LoggingUploadHandler`, po dokładny opis całego interfejsu klasy odsyłam do `odpowiedniego rozdziału w dokumentacji Django <http://docs.djangoproject.com/en/dev/topics/http/file-uploads/#optional-methods>`_.
 
@@ -52,8 +52,8 @@ Nie będę opisywał tu wszystkich metod, a jedynie te, które zaimplementowane 
    Metoda ta umożliwia całkowite przechwycenie wszystkich danych i dowolną modyfikację procesu obsługi odebranego pliku. W kodzie przykładowym używana jest do ustawienia rozmiaru pobieranego pliku (inne miejsca nie są *godne zaufania*).
 
 Spodziewany efekt i co można z tym zrobić?
-++++++++++++++++++++++++++++++++++++++++++
+------------------------------------------
 
 Działanie aplikacji można zaobserwować w oknie terminala z uruchomionym serwerem developerskim Django - w miarę odbierania danych od serwera, aplikacja wypisuje postęp pobierania na standardowym wejściu.
 
-A do czego może się nam to przydać? A chociażby do tego, żeby zrobić wskaźnik postępu uploadowania pliku (obiekt pożądania wielu developerów aplikacji webowych...).
+A do czego może się nam to przydać? A chociażby do tego, żeby zrobić wskaźnik postępu uploadowania pliku (obiekt pożądania wielu developerów aplikacji webowych...). Jednak idea *podłączalnych* zarządców obsługi uploadu nie ogranicza się tylko do monitorowania procesu uplodu - dzięki odpowiednim klasom można obsługiwać przypadki i wymagania specjalne, jak np. modyfikacja czy filtrowanie odbieranych danych *w locie*, a także specyficzne sposoby walidacji już w trakcie odbierania danych. Jak widać, ta nowa *umiejętność* Django może być bardzo przydatna.
