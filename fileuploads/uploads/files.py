@@ -37,6 +37,7 @@ class LoggingUploadHandler(FileUploadHandler):
         else:
             percents = (self.uploaded / self.file_size) * 100
             if percents > 100:
+                # some inconsistencies, we already have all data!
                 percents = 100.0
             percentage = '%.2f' % percents
         print 'uploaded %d bytes (%s %%)' % (self.uploaded, percentage)
